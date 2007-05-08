@@ -1,0 +1,99 @@
+Format: Development Release 02-10-2007 (1.35 base)
+
+
+Title: Curses User Interface
+
+# You can also add a sub-title to your menu like this:
+# SubTitle: [subtitle]
+
+Footer: Copyright (c) 2007 Tiago Dionizio
+Timestamp: Last Updated yyyy/mm/dd
+#   m     - One or two digit month.  January is "1"
+#   mm    - Always two digit month.  January is "01"
+#   mon   - Short month word.  January is "Jan"
+#   month - Long month word.  January is "January"
+#   d     - One or two digit day.  1 is "1"
+#   dd    - Always two digit day.  1 is "01"
+#   day   - Day with letter extension.  1 is "1st"
+#   yy    - Two digit year.  2006 is "06"
+#   yyyy  - Four digit year.  2006 is "2006"
+#   year  - Four digit year.  2006 is "2006"
+
+
+# --------------------------------------------------------------------------
+# 
+# Cut and paste the lines below to change the order in which your files
+# appear on the menu.  Don't worry about adding or removing files, Natural
+# Docs will take care of that.
+# 
+# You can further organize the menu by grouping the entries.  Add a
+# "Group: [name] {" line to start a group, and add a "}" to end it.
+# 
+# You can add text and web links to the menu by adding "Text: [text]" and
+# "Link: [name] ([URL])" lines, respectively.
+# 
+# The formatting and comments are auto-generated, so don't worry about
+# neatness when editing the file.  Natural Docs will clean it up the next
+# time it is run.  When working with groups, just deal with the braces and
+# forget about the indentation and comments.
+# 
+# You can use this file on other computers even if they use different
+# directories.  As long as the command line points to the same source files,
+# Natural Docs will be able to correct the locations automatically.
+# 
+# --------------------------------------------------------------------------
+
+
+File: About  (/home/tngd/work/lua/devel/lua_curses/doc/about.txt)
+File: Lua Curses  (/home/tngd/work/lua/devel/lua_curses/doc/curses.txt)
+File: Console User Interface  (/home/tngd/work/lua/devel/lua_curses/doc/cui.txt)
+
+Group: Curses Interface  {
+
+   File: curses  (/home/tngd/work/lua/devel/lua_curses/src/lcurses.c)
+   }  # Group: Curses Interface
+
+Group: CUI Concepts  {
+
+   File: Getting Started  (/home/tngd/work/lua/devel/lua_curses/doc/start.txt)
+   File: Visual Controls  (/home/tngd/work/lua/devel/lua_curses/doc/views.txt)
+   File: Drawing Views  (/home/tngd/work/lua/devel/lua_curses/doc/drawing.txt)
+   File: Event Handling  (/home/tngd/work/lua/devel/lua_curses/doc/events.txt)
+   }  # Group: CUI Concepts
+
+Group: CUI Globals  {
+
+   File: globals  (/home/tngd/work/lua/devel/lua_curses/lua/cui/core.lua)
+   }  # Group: CUI Globals
+
+Group: CUI Objects  {
+
+   File: Object  (/home/tngd/work/lua/devel/lua_curses/lua/cui/object.lua)
+   File: Point  (/home/tngd/work/lua/devel/lua_curses/lua/cui/point.lua)
+   File: Rect  (/home/tngd/work/lua/devel/lua_curses/lua/cui/rect.lua)
+   File: Event  (/home/tngd/work/lua/devel/lua_curses/lua/cui/event.lua)
+   File: View  (/home/tngd/work/lua/devel/lua_curses/lua/cui/view.lua)
+   }  # Group: CUI Objects
+
+Group: Index  {
+
+   Index: Everything
+   Function Index: Functions
+   Object Index: Objects
+   }  # Group: Index
+
+Group: Links  {
+
+   Link: CUI  (http://cui.luaforge.net/)
+   Link: Project Page  (http://luaforge.net/projects/cui/)
+   Link: Lua  (http://www.lua.org/)
+   Link: PDCurses  (http://pdcurses.sourceforge.net/)
+   Link: NCurses  (http://www.gnu.org/software/ncurses/ncurses.html)
+   }  # Group: Links
+
+
+
+##### Do not change or remove these lines. #####
+Data: 1(D3333RuEG3t\`f37uHA3oNp3fG/Go3oNpV9NH6G63oNp)
+Data: 1(h3333RuEG3t\`f37uHA3oNp3fG/Go3oNpV9NH6G636H9)
+Data: 1(T3333RuEG3t\`f37uHA3oNp3fG/Go3oNpV9NH6G63fu9)

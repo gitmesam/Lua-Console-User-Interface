@@ -1,0 +1,29 @@
+
+Title: Getting Started
+
+Topic: Minimal Example
+
+    > require 'cui.app'
+    >
+    > app = cui.App:create()
+    > app:run()
+    > app:close()
+
+Group: Startup and Shutdown
+
+    Things to consider on application startup and shutdown.
+
+Topic: Startup
+    application startup
+
+Topic: Shutdown
+    application shutdown
+
+Group: Error handling
+    How to handle errors in a curses application.
+
+Topic: Recovering from errors
+    getting a stacktrace
+
+Topic: Locating errors
+    debug.stacktrace

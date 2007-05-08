@@ -1,0 +1,9 @@
+
+Title: Visual Controls
+
+
+Topic: Positioning
+    describe rects, how positions are handled. not with/height, but top-left and bottom-right (exclusive) corners
+
+See Also:
+    <Rect>
