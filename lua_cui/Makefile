@@ -73,9 +73,10 @@ dist:
 	@echo 'Done.'
 
 doc:
-	@mkdir -p doc NaturalDocs
+	@mkdir -p docs NaturalDocs
 	../NaturalDocs/NaturalDocs \
 		-i lua -i src -i doc \
+		-xi lua/.svn -xi src/.svn -xi doc/.svn \
 		-p NaturalDocs \
 		-o HTML docs \
 		-s Default Styles
