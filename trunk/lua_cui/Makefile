@@ -1,82 +1,67 @@
-# makefile for lcurses library for Lua
+# makefile for lua curses and lua cui library for Lua
 
-# dist location
-DISTDIR=$(HOME)/dist
-TMP=/tmp
+# curses for mingw
+PDCURSES       = ../pdcurses
+PDCURSES_LIBS  = $(PDCURSES)/pdcurses.a
 
 # change these to reflect your Lua installation
-LUA=$(HOME)/local/lua
-LUABIN= $(LUA)/bin
-LUAINC= $(LUA)/include
-#LUALIB= $(LUA)/lib
-LUALIB= $(LUA)/bin
+LUA            = $(HOME)/local/lua
+LUA_INC_DIR    = -I$(LUA)/include
+LUA_LIB_DIR    = -L$(LUA)/lib
+LUA_LIBS       =
 
-# no need to change anything below here
-SHFLAGS= -fPIC
-CFLAGS= $(INCS) $(DEFS) $(WARN) $(SHFLAGS) -O2
-DEFS= # -DDEBUG
-WARN= -Wall -Werror -ansi #-ansi -pedantic -Wall
-INCS= -I$(LUAINC)
-LIBS= -L$(LUALIB) -lpanel -lcurses
+CURSES_INC_DIR =
+CURSES_LIB_DIR =
+CURSES_LIBS    = -lcurses
 
-PDCURSES=0
+DOC_DIR	= docs
 
-#PDCurses
-ifeq ($(PDCURSES),1)
-SHFLAGS=
-CC=gcc -mno-cygwin
-LIBS= ../curses/panel.a ../curses/pdcurses.a lua51.dll
-INCS= -I$(LUAINC) -I../curses
-endif
+T_DIR	= lib
+T	= cui
+SO	= .so
+WARN	= -Wall -Werror -ansi
+CFLAGS	= $(WARN) -O2 $(LUA_INC_DIR) $(CURSES_INC_DIR)
+LDFLAGS	=  $(LUA_LIB_DIR) $(LUA_LIBS) $(CURSES_LIB_DIR) $(CURSES_LIBS)
 
+ifeq ($(MINGW),1)
+	SO	 = .dll
+	CFLAGS	+= -mno-cygwin
+	LDFLAGS += -mno-cygwin
 
-.PHONY: doc
-
-MYLIB=curses
-MYNAME= curses
-OBJS= src/lcurses.o
-
-ifneq ($(PDCURSES),1)
-T= curses.so
+	LUA_LIBS      += $(LUA)/bin/lua51.dll
+	CURSES_INC_DIR = -I$(PDCURSES)
+	CURSES_LIB_DIR =
+	CURSES_LIBS    =  $(PDCURSES_LIBS)
 else
-T= curses.dll
+	CFLAGS	+= -fPIC
+	LDFLAGS	+= -fPIC
 endif
 
-VER=0.2
-TARFILE = $(DISTDIR)/$(MYLIB)-$(VER).tar.gz
-TARFILES = \
-	README Makefile \
-	lcurses.c lpanel.c \
-	lcurses.html \
-	requireso.lua curses.lua curses.panel.lua \
-	test.lua \
-	cui.lua cui.ctrls.lua testcui.lua \
-	firework.lua interp.lua
+.PHONY: doc shared
 
-all: $T
+all:
+	@echo 'make [mingw|linux]'
 
-$T:	$(OBJS)
-	$(CC) $(SHFLAGS) -o $@ -shared $(OBJS) $(LIBS)
+mingw:
+	$(MAKE) MINGW=1 shared
 
-src/lcurses.o: src/lcurses.c
+linux:
+	$(MAKE) MINGW=0 shared
+
+shared: $(T_DIR)/$(T)$(SO)
+
+$(T_DIR)/$(T)$(SO): src/lcurses.c
+	@mkdir -p $(T_DIR)
+	$(CC) $(CFLAGS) -o $@ -shared $^ $(LDFLAGS)
 
 clean:
-	rm -f $(OBJS) $T core core.* a.out
-
-dist:
-	@echo 'Exporting...'
-	@cvs export -r HEAD -d $(TMP)/$(MYLIB)-$(VER) $(MYLIB)
-	@echo 'Compressing...'
-	@tar -zcf $(TARFILE) -C $(TMP) $(MYLIB)-$(VER)
-	@rm -fr $(TMP)/$(MYLIB)-$(VER)
-	@lsum $(TARFILE) $(DISTDIR)/md5sums.txt
-	@echo 'Done.'
+	rm -f $(T_DIR)/$(TARGET)$(SO)
 
 doc:
-	@mkdir -p docs NaturalDocs
+	@mkdir -p $(DOC_DIR) NaturalDocs
 	../NaturalDocs/NaturalDocs \
 		-i lua -i src -i doc \
 		-xi lua/.svn -xi src/.svn -xi doc/.svn \
 		-p NaturalDocs \
-		-o HTML docs \
+		-o HTML $(DOC_DIR) \
 		-s Default Styles

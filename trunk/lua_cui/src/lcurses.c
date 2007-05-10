@@ -85,10 +85,10 @@ Notes:
 ** defines
 ** =======================================================
 */
-static const char *STDSCR_REGISTRY     = "curses:stdscr";
-static const char *WINDOWMETA          = "curses:window";
-static const char *CHSTRMETA           = "curses:chstr";
-static const char *RIPOFF_TABLE        = "curses:ripoffline";
+static const char *STDSCR_REGISTRY     = "cui:curses:stdscr";
+static const char *WINDOWMETA          = "cui:curses:window";
+static const char *CHSTRMETA           = "cui:curses:chstr";
+static const char *RIPOFF_TABLE        = "cui:curses:ripoffline";
 
 #define B(v) ((v == ERR) ? 0 : 1)
 
@@ -2304,7 +2304,7 @@ static const luaL_reg curseslib[] =
 };
 
 
-int luaopen_curses (lua_State *L)
+int luaopen_cui_curses (lua_State *L)
 {
     /*
     ** create new metatable for window objects
@@ -2333,7 +2333,7 @@ int luaopen_curses (lua_State *L)
     ** create global table with curses methods/variables/constants
     */
     lua_newtable(L);
-    luaL_register(L, "curses", curseslib);
+    luaL_register(L, NULL, curseslib);
 
     lua_pushstring(L, "init");
     lua_pushvalue(L, -2);
