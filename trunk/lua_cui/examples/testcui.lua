@@ -1,7 +1,7 @@
 require 'cui'
 require 'cui/ctrls'
 
---local curses = cui.curses
+local curses = cui.curses
 local Event = cui.Event
 local View = cui.View
 local Listbox = cui.Listbox
