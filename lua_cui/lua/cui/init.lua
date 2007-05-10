@@ -7,7 +7,7 @@ $Id: __core.lua,v 1.6 2004/08/27 08:19:45 tngd Exp $
 module('cui', package.seeall)
 
 -- load curses module
-require 'curses'
+curses = require 'cui.curses'
 
 -- include base functions and objects
 require 'cui.core'
