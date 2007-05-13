@@ -36,15 +36,28 @@
 %!postproc(html): '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">' '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">'
 %% substitutions
 %!postproc(html): '(?i)<title>([^<]*)</title>' '<title>PAGE_TITLE_TEXT - SITE_TITLE</title>'
-%!postproc(html): SITE_LOGO '<span class="site_logo"><a href="URL_LUACUI">Lua<span class="site_logo_text">__CUI__</span></a></span>'
+%!postproc(html): SITE_LOGO '<span class="site_logo"><a href="URL_PROJECT_SITE">Lua<span class="site_logo_text">CUI</span></a></span>'
 %!postproc(html): PAGE_TITLE_SPAN '<span class="page_title">PAGE_TITLE_TEXT</span>'
-
-%%!postproc(html): __CUI__ '<span style="color: #a00">C</span><span style="color: green">U</span><span style="color: blue">I</span>'
-%!postproc(html): __CUI__ 'CUI'
 
 %!postproc: SITE_TITLE 'LuaCUI'
 %!postproc: SITE_LOGO 'LuaCUI'
-%!postproc: URL_LUACUI http://lua-cui.sourceforge.net/
+
+%!postproc: URL_PROJECT_SITE http://lua-cui.sourceforge.net/
+%!postproc: URL_PROJECT_PAGE http://sourceforge.net/projects/lua-cui/
+%!postproc: URL_PROJECT_SVN http://sourceforge.net/svn/?group_id=195667
+
+%!postproc: URL_SOURCEFORGE http://sourceforge.net/
+%!postproc: URL_T2T http://txt2tags.sourceforge.net/
+%!postproc: URL_LUA http://www.lua.org/
+
+%!postproc(html): ELM_VALIDATE_HTML '<a href="http://validator.w3.org/check?uri=referer"><img align="middle" src="images/valid-html401.png" alt="Valid HTML 4.01 Transitional" height="31" width="88" style="margin-left: 1em;" /></a>'
+%!postproc(html): ELM_VALIDATE_CSS '<a href="http://jigsaw.w3.org/css-validator/check/referer"><img align="middle" src="images/valid-css.png" alt="Valid CSS!" height="31" width="88" /></a>'
+
+%!postproc: ELM_VALIDATE_HTML ''
+%!postproc: ELM_VALIDATE_CSS ''
 
 %!postproc(html): xCOPYx &copy;
 %!postproc(html): xDOTx &middot;
+
+%% sourceforge logo
+%!postproc(html): '(?i)<img[^>]*images/SFLogo.png[^>]*>' '<img align="middle" src="http://sflogo.sourceforge.net/sflogo.php?group_id=195667&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" />'

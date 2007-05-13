@@ -25,8 +25,9 @@ a:hover {
 pre {
 	font-family: monospace;
 	margin-left: 2em;
-	padding: 0.1em;
+	padding: 0.5em;
 	border: 1px solid #000;
+	background-color: #eee;
 }
 
 .header {
@@ -155,17 +156,27 @@ pre {
 	position: relative;
 	width: 100%;
 	clear: both;
+	border-top: 1px solid #066;
 }
 
 .footer p {
 	margin: 0px;
 	padding: 0.5em 1em;
 
-	text-align: right;
 	font-size: 80%;
-	background-color: #066;
-	color: #cff;
+	color: #000;
 }
+
+.credits p {
+	margin: 0.5em;
+	padding: 0;
+	float: right;
+}
+
+.credits img {
+	border: none;
+}
+
 } /* media screen */
 
 @media print {
@@ -191,8 +202,11 @@ p {
 	border-top: 1px solid #000;
 	padding-top: 2px;
 	margin: 0px;
-	text-align: right;
 	font-size: 80%;
+}
+
+.credits {
+	display: none;
 }
 
 } /* @media print */

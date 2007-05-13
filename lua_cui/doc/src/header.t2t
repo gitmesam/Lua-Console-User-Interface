@@ -1,20 +1,5 @@
 
 """ {{div class="menu"}}
 - [Home index.html]
-- [Download download.html]
-- [Download download.html]
-- [Download download.html]
-    - [Download download.html]
-    - [Download download.html]
-    - [Download download.html]
-    -
-- [Download download.html]
-- [Download download.html]
-- [Download download.html]
-- [Download download.html]
-- [Download download.html]
-- [Download download.html]
-- [Download download.html]
-- [Download download.html]
 -
 """ {{/div}}{{div class="contents"}}
