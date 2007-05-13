@@ -6,10 +6,10 @@ This library aims to provide a framework used by developers to
 build console applications in pure Lua.
 
 This framework was inspired in TVision[1] and most of the concepts
-are modeled from it, although there is an attempt to take advantagde
+are modeled from it, although there is an attempt to take advantage
 of the Lua language to do some things in a different way.
 
-A curses backend is used to perform terminal operations, the rest
+A curses back end is used to perform terminal operations, the rest
 is done using only Lua.
 
 [1] http://www.sigala.it/sergio/tvision/
