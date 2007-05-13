@@ -1,14 +1,20 @@
+SITE_LOGO
+PAGE_TITLE_SPAN
 
-Title: About
+%!includeconf: config.t2t
+%!postproc: PAGE_TITLE_TEXT Home
+%!postproc(html): '(?i)(<a[^>]+href=".*index.html"[^>]*)>' '\1 class="current">'
+
+%!include: header.t2t
 
 This library aims to provide a framework used by developers to
 build console applications in pure Lua.
 
-This framework was inspired in TVision <http://www.sigala.it/sergio/tvision/>
+This framework was inspired in [TVision http://www.sigala.it/sergio/tvision/]
 and most of the concepts are modeled from it, although there is an attempt to
 take advantagde of the Lua language to do some things in a different way.
 
 A curses backend is used to perform terminal operations, the rest is done
 using only Lua.
 
-
+%!include: footer.t2t
