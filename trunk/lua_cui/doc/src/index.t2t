@@ -26,9 +26,4 @@ take advantagde of the Lua language to do some things in a different way.
 A curses backend is used to perform terminal operations, the rest is done
 using only Lua.
 
-```
-wfewf wef wef wef
-wfe we ee
-```
-
 %!include: footer.t2t
