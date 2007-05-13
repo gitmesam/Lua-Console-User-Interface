@@ -1,4 +1,10 @@
 
+/*
+** color scheme: http://wellstyled.com/tools/colorscheme2/index-en.html
+** http://wellstyled.com/tools/colorscheme2/index-en.html?mono;50;0;210;1;-1;1;-0.6;0.1;1;0.2;0.95;1;-1;1;-0.6;0.1;1;0.6;1;1;-1;1;-0.6;0.1;1;0.6;1;1;-1;1;-0.6;0.1;1;0.6;1;1
+*/
+
+@media screen {
 body {
 	margin: 0px;
 	padding: 0px;
@@ -118,9 +124,9 @@ pre {
 	padding: 3px 0px 3px 5px;
 }
 .menu,
-.menu li a,
-.menu li a:hover {
+.menu li a {
 	color: #cff;
+	font-weight: bold;
 }
 .menu li a.current {
 	color: #399;
@@ -147,8 +153,8 @@ pre {
 
 .footer {
 	position: relative;
-	clear: both;
 	width: 100%;
+	clear: both;
 }
 
 .footer p {
@@ -160,3 +166,33 @@ pre {
 	background-color: #066;
 	color: #cff;
 }
+} /* media screen */
+
+@media print {
+
+p {
+	text-align: justify;
+}
+
+.header h1,
+.header h1 a {
+	margin: 0px;
+	padding: 0px 0px 2px;
+	font-size: 80%;
+	text-align: right;
+	border-bottom: 1px solid #000;
+}
+
+.menu {
+	display: none;
+}
+
+.footer p {
+	border-top: 1px solid #000;
+	padding-top: 2px;
+	margin: 0px;
+	text-align: right;
+	font-size: 80%;
+}
+
+} /* @media print */
