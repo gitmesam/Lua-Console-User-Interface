@@ -42,8 +42,9 @@
 %%!postproc(html): __CUI__ '<span style="color: #a00">C</span><span style="color: green">U</span><span style="color: blue">I</span>'
 %!postproc(html): __CUI__ 'CUI'
 
-%!postproc: SITE_TITLE 'Lua Console User Interface'
-%!postproc: SITE_LOGO "LuaCUI"
+%!postproc: SITE_TITLE 'LuaCUI'
+%!postproc: SITE_LOGO 'LuaCUI'
 %!postproc: URL_LUACUI http://lua-cui.sourceforge.net/
 
-%!postproc(html): DOT &middot;
+%!postproc(html): xCOPYx &copy;
+%!postproc(html): xDOTx &middot;
