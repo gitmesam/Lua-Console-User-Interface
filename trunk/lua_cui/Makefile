@@ -70,17 +70,35 @@ DOC_SRC = doc/src
 DOC_DST = $(DOC_DIR)
 DOC_FILES = index
 
+DOC_HTML = \
+	$(DOC_DST)/index.html \
+
+DOC_CSS = \
+	$(DOC_DST)/main.css \
+
+DOC_IMAGES = \
+	$(DOC_DST)/images/SFLogo.png \
+	$(DOC_DST)/images/t2tpowered-white.png \
+	$(DOC_DST)/images/lua.png \
+	$(DOC_DST)/images/valid-html401.png \
+	$(DOC_DST)/images/valid-css.png \
+
+DOC_ALL = $(DOC_HTML) $(DOC_CSS) $(DOC_IMAGES)
+
 DOC_SHARED = \
 	$(DOC_SRC)/header.t2t \
 	$(DOC_SRC)/footer.t2t \
-	$(DOC_SRC)/config.t2t
+	$(DOC_SRC)/config.t2t \
 
 $(DOC_DST)/%.html: $(DOC_SRC)/%.t2t $(DOC_SHARED)
-	txt2tags --target html -i $< -o $@ --no-rc
+	txt2tags --target html -i "$<" -o "$@" --no-rc
 
 $(DOC_DST)/%: $(DOC_SRC)/%
-	cp $^ $@
+	cp "$<" "$@"
 
-doc-html: $(DOC_DST)/index.html $(DOC_DST)/main.css
+doc-dirs:
+	@mkdir -p "$(DOC_DST)" "$(DOC_DST)/images" "$(DOC_DST)/api"
+
+doc-html: doc-dirs $(DOC_ALL)
 
 doc: doc-html doc-code

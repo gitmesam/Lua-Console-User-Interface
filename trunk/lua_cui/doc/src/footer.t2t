@@ -2,8 +2,19 @@
 
 % close the contents div
 % insert footer div
-""" {{/div}}{{/div}}{{div class="footer"}}
+""" {{/div}}{{/div}}{{div class="footer"}}{{div class="credits"}}
 
-Last changed: %%mtime(%Y-%m-%d %H:%m) xDOTx Copyright xCOPYx Tiago Dionizio 2007
+% powered by logos
+[[images/SFLogo.png] URL_SOURCEFORGE]
+[[images/t2tpowered-white.png] URL_T2T]
+[[images/lua.png] URL_LUA]
+% w3c
+% ELM_VALIDATE_HTML
+% ELM_VALIDATE_CSS
+
+""" {{/div}}
+
+% back to the footer
+Last modified on: %%mtime(%c) xDOTx Copyright xCOPYx Tiago Dionizio 2007
 
 """ {{/div}}{{div class="fakebody"}}
