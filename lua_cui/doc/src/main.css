@@ -99,19 +99,19 @@ pre {
 	position: relative;
 	float: left;
 	overflow: hidden;
-	width: 12em;
+	width: 13em;
 	z-index: 1;
-	padding: 0.5em;
 	background-color: #399;
 }
 
 .menu ul {
 	list-style: none;
 	margin: 0px;
-	padding: 0px;
+	padding: 0.5em;
 }
 .menu li ul {
 	margin-left: 1em;
+	padding: 0px;
 }
 .menu li {
 	padding: 0px;
@@ -140,7 +140,7 @@ pre {
 
 .contents {
 	position: relative;
-	border-left: 13em solid #ddd;
+	border-left: 13em solid #399;
 	padding: 0.5em 1em;
 	background-color: #fff;
 	color: #000;
