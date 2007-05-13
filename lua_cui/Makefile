@@ -14,7 +14,7 @@ CURSES_INC_DIR =
 CURSES_LIB_DIR =
 CURSES_LIBS    = -lcurses
 
-DOC_DIR	= docs
+DOC_DIR	= doc/html
 
 T_DIR	= lib
 T	= cui
@@ -57,11 +57,30 @@ $(T_DIR)/$(T)$(SO): src/lcurses.c
 clean:
 	rm -f $(T_DIR)/$(TARGET)$(SO)
 
-doc:
-	@mkdir -p $(DOC_DIR) NaturalDocs
+doc-code:
+	@mkdir -p $(DOC_DIR)/api NaturalDocs
 	../NaturalDocs/NaturalDocs \
-		-i lua -i src -i doc \
+		-i lua -i src \
 		-xi lua/.svn -xi src/.svn -xi doc/.svn \
 		-p NaturalDocs \
-		-o HTML $(DOC_DIR) \
+		-o HTML $(DOC_DIR)/api \
 		-s Default Styles
+
+DOC_SRC = doc/src
+DOC_DST = $(DOC_DIR)
+DOC_FILES = index
+
+DOC_SHARED = \
+	$(DOC_SRC)/header.t2t \
+	$(DOC_SRC)/footer.t2t \
+	$(DOC_SRC)/config.t2t
+
+$(DOC_DST)/%.html: $(DOC_SRC)/%.t2t $(DOC_SHARED)
+	txt2tags --target html -i $< -o $@ --no-rc
+
+$(DOC_DST)/%: $(DOC_SRC)/%
+	cp $^ $@
+
+doc-html: $(DOC_DST)/index.html $(DOC_DST)/main.css
+
+doc: doc-html doc-code

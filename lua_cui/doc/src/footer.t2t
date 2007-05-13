@@ -1,0 +1,9 @@
+﻿% shared footer
+
+% close the contents div
+% insert footer div
+""" {{/div}}{{/div}}{{div class="footer"}}
+
+Last changed: %%mtime(%Y-%m-%d %H:%m) DOT Copyright © Tiago Dionizio 2007
+
+""" {{/div}}{{div class="fakebody"}}

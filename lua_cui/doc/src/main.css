@@ -1,0 +1,162 @@
+
+body {
+	margin: 0px;
+	padding: 0px;
+	color: #000;
+	background-color: #fff;
+	font-family: Arial,Helvetica,sans-serif;
+}
+
+a,
+a:hover {
+	font-family: Arial,Helvetica,sans-serif;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+
+pre {
+	font-family: monospace;
+	margin-left: 2em;
+	padding: 0.1em;
+	border: 1px solid #000;
+}
+
+.header {
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+}
+.header h1,
+.header h2 {
+	margin: 0px;
+	padding: 0px;
+	font-size: 100%;
+	font-weight: normal;
+}
+
+.header h1 {
+	position: relative;
+	width: 13em;
+	float: left;
+	text-align: center;
+
+	background-color: #066;
+	color: #fff;
+}
+
+.header h2 {
+	border-left: 14em solid #ddd;
+	border-right: 1em solid #ddd;
+	background-color: #399;
+	border-color: #399;
+	color: #cff;
+
+}
+
+.header h1 .site_logo,
+.header h2 .page_title {
+	display: block;
+	padding: 0.5em 0em;
+	font-weight: bold;
+	font-size: 200%;
+	line-height: 1em;
+}
+
+.header h1 a,
+.header h1 a:hover {
+	color: #fff;
+}
+.header h1 .site_logo_text {
+	color: #cff;
+}
+.header h1 a,
+.header h1 a:hover,
+.header h1 .site_logo_text:hover {
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.toc {
+
+}
+
+.body {
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+	color: #033;
+}
+
+.menu {
+	position: relative;
+	float: left;
+	overflow: hidden;
+	width: 12em;
+	z-index: 1;
+	padding: 0.5em;
+	background-color: #399;
+}
+
+.menu ul {
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+.menu li ul {
+	margin-left: 1em;
+}
+.menu li {
+	padding: 0px;
+	margin: 0px;
+	display: inline;
+}
+.menu li a {
+	display: block;
+	position: relative;
+	padding: 3px 0px 3px 5px;
+}
+.menu,
+.menu li a,
+.menu li a:hover {
+	color: #cff;
+}
+.menu li a.current {
+	color: #399;
+	background-color: #cff;
+}
+.menu li a:hover {
+	text-decoration: none;
+	color: #cff;
+	background-color: #066;
+}
+
+.contents {
+	position: relative;
+	border-left: 13em solid #ddd;
+	padding: 0.5em 1em;
+	background-color: #fff;
+	color: #000;
+}
+.contents a,
+.contents a:hover {
+	color: #066;
+	font-weight: bold;
+}
+
+.footer {
+	position: relative;
+	clear: both;
+	width: 100%;
+}
+
+.footer p {
+	margin: 0px;
+	padding: 0.5em 1em;
+
+	text-align: right;
+	font-size: 80%;
+	background-color: #066;
+	color: #cff;
+}

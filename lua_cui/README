@@ -10,6 +10,6 @@ are modeled from it, although there is an attempt to take advantagde
 of the Lua language to do some things in a different way.
 
 A curses backend is used to perform terminal operations, the rest
-is dont using only Lua.
+is done using only Lua.
 
 [1] http://www.sigala.it/sergio/tvision/
