@@ -1,3 +1,7 @@
+--[[ Console User Interface (cui) ]-----------------------------------------
+Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
+$Id$
+--------------------------------------------------------------------------]]
 
 local table, string, debug = table, string, debug
 local assert = assert
