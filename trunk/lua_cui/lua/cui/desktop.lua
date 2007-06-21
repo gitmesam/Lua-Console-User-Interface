@@ -6,12 +6,18 @@ $Id$
 local table, string = table, string
 local tonumber = tonumber
 
-local curses = require 'cui.curses'
-
+require 'cui.listbox'
+require 'cui.scrollbar'
+require 'cui.window'
 module 'cui'
 
+local message, color_pair = message, color_pair
+
+local Rect, Event, BroadcastEvent, View, Group, Window, Scrollbar, Listbox =
+      Rect, Event, BroadcastEvent, View, Group, Window, Scrollbar, Listbox
+
 -- Desktop
-Desktop = Group{}
+local Desktop = Group{}
 
 function Desktop:initialize(bounds)
     Group.initialize(self, bounds)
@@ -24,15 +30,19 @@ end
 
 function Desktop:init_background()
     local bg = View:create(Rect{0, 0, self.size.x, self.size.y})
+    local color
     bg.grow.hix = true
     bg.grow.hiy = true
+
     function bg:draw_window()
-        local w = self:window()
+        color = color or color_pair('blue', 'blue')
+
+        local c = self:canvas()
         local len = self.size.x
-        local str = curses.new_chstr(len)
-        str:set_ch(0, curses.ACS_BLOCK, color_pair(curses.COLOR_BLUE, curses.COLOR_BLUE) + curses.A_BOLD, len)
+        local line = c:line(len):acs(0, 'block', { color, 'bold' }, len)
+
         for y = 0, self.size.y - 1 do
-            w:mvaddchstr(y, 0, str)
+            c:move(0, y):write(line)
         end
     end
     return bg
@@ -124,3 +134,6 @@ function Desktop:handle_event(event)
         end
     end
 end
+
+-- exports
+_M.Desktop = Desktop

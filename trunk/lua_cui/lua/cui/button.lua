@@ -5,9 +5,11 @@ $Id$
 
 local math, string = math, string
 
-local curses = require 'cui.curses'
-
 module 'cui'
+
+local message, calc_attr, color_pair = message, calc_attr, color_pair
+local Event, CommandEvent, View =
+      Event, CommandEvent, View
 
 --[[ tbutton ]--------------------------------------------------------------
 tbutton: tview
@@ -23,7 +25,7 @@ Methods:
 
 on press: message(parent, ev_command, cm_xxxx, self)
 --]]------------------------------------------------------------------------
-Button = View()
+local Button = View()
 
 function Button:initialize(bounds, label, command)
     View.initialize(self, bounds)
@@ -38,18 +40,19 @@ function Button:initialize(bounds, label, command)
     -- initialization
     self.label = label
     self.command = command
-    self.fcolor = color_pair(curses.COLOR_YELLOW, curses.COLOR_GREEN) + curses.A_BOLD
-    self.ncolor = color_pair(curses.COLOR_WHITE, curses.COLOR_BLUE) + curses.A_BOLD
+    self.fcolor = calc_attr{ color_pair('yellow', 'green'), 'bold' }
+    self.ncolor = calc_attr{ color_pair('white', 'blue'), 'bold' }
     self:goto(math.floor((self.size.x - #self.label) / 2), 0)
 end
 
 function Button:draw_window()
-    local w = self:window()
+    local c = self:canvas()
     local attr = self.state.focused and self.fcolor or self.ncolor
-    local str = curses.new_chstr(self.size.x)
-    str:set_str(0, '['..string.rep(' ', self.size.x - 2)..']', attr)
-    str:set_str(math.floor((self.size.x - #self.label) / 2), self.label, attr)
-    w:mvaddchstr(0, 0, str)
+    local line = c:line(self.size.x)
+
+    line:str(0, '['..string.rep(' ', self.size.x - 2)..']', attr)
+    line:str(math.floor((self.size.x - #self.label) / 2), self.label, attr)
+    c:move(0, 0):write(line)
 end
 
 function Button:handle_event(event)
@@ -70,3 +73,6 @@ function Button:set_state(state, enable)
         self:refresh()
     end
 end
+
+-- exports
+_M.Button = Button

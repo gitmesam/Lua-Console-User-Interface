@@ -58,7 +58,6 @@ tview methods:
     tview:put_event(event)
     tview:is_valid(data)
     tview:end_modal(data)
-    tview:window()
     tview:draw_window()
     tview:refresh()
     tview:redraw(onparent)
@@ -81,8 +80,8 @@ local curses = require 'cui.curses'
 
 module 'cui'
 
-local Object, Point, Rect, Event, BroadcastEvent =
-      Object, Point, Rect, Event, BroadcastEvent
+local Object, Point, Rect, Event, BroadcastEvent, Canvas =
+      Object, Point, Rect, Event, BroadcastEvent, Canvas
 local message, range =
       message, range
 
@@ -242,10 +241,6 @@ function View:end_modal(data)
     end
 end
 
-function View:window()
-    return self._window
-end
-
 -- return the focused window
 local function top_window()
     local w = app
@@ -318,8 +313,13 @@ function View:unlock()
 end
 
 --
+function View:canvas()
+    return Canvas:create(self, self._window)
+end
+
+--
 function View:draw_window()
-    self:window():clear()
+    self:canvas():clear()
 end
 
 -- print self in parent window
