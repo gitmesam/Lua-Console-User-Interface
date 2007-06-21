@@ -1,3 +1,8 @@
+--[[ Console User Interface (cui) ]-----------------------------------------
+Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
+$Id$
+--------------------------------------------------------------------------]]
+
 --[[ Base window object ]---------------------------------------------------
 tview private members:
     tview._tag          -- internal/debug

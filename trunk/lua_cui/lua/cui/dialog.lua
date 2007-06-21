@@ -3,6 +3,5 @@ Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
 $Id$
 --------------------------------------------------------------------------]]
 
-require 'cui'
 module 'cui'
 

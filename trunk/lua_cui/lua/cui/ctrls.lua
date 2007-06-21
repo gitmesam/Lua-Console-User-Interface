@@ -1,3 +1,8 @@
+--[[ Console User Interface (cui) ]-----------------------------------------
+Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
+$Id$
+--------------------------------------------------------------------------]]
+
 --[[ Console User Interface (_cui) - load all controls ]--------------------
 Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
 $Id$
@@ -27,17 +32,17 @@ Available controls:
 --]]------------------------------------------------------------------------
 
 require 'cui'
-require 'cui/app'
-require 'cui/button'
-require 'cui/clock'
-require 'cui/desktop'
-require 'cui/dialog'
-require 'cui/edit'
-require 'cui/frame'
-require 'cui/label'
-require 'cui/listbox'
-require 'cui/memory'
-require 'cui/menubar'
-require 'cui/scrollbar'
-require 'cui/statusbar'
-require 'cui/window'
+require 'cui.app'
+require 'cui.button'
+require 'cui.clock'
+require 'cui.desktop'
+require 'cui.dialog'
+require 'cui.edit'
+require 'cui.frame'
+require 'cui.label'
+require 'cui.listbox'
+require 'cui.memory'
+require 'cui.menubar'
+require 'cui.scrollbar'
+require 'cui.statusbar'
+require 'cui.window'

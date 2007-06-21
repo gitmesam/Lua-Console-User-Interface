@@ -1,3 +1,7 @@
+--[[ Console User Interface (cui) ]-----------------------------------------
+Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
+$Id$
+--------------------------------------------------------------------------]]
 
 local min, max = math.min, math.max
 local type = type
