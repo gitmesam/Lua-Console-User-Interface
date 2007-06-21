@@ -5,11 +5,13 @@ $Id$
 
 local math, string = math, string
 
-local curses = require 'cui.curses'
-
 require 'cui.view'
 require 'cui.window'
 module 'cui'
+
+local color_pair, message = color_pair, message
+local Rect, Event, View, Label, Window, BroadcastEvent =
+      Rect, Event, View, Label, Window, BroadcastEvent
 
 --[[ tscrollbar ]----------------------------------------------------------
 position = 1..limit where limit > 0
@@ -34,10 +36,11 @@ Keys:
     Space       -- show indicator window
 --]]------------------------------------------------------------------------
 
-Scrollbar = View()
+local Scrollbar = View()
 
 function Scrollbar:initialize(bounds, limit, page_step)
     View.initialize(self, bounds)
+    local vertical = bounds:size().x == 1
 
     -- options
     self.options.selectable = true
@@ -50,7 +53,7 @@ function Scrollbar:initialize(bounds, limit, page_step)
     self:set_state('cursor_visible', true)  -- for 'focus' tracking
 
     -- initialization
-    self.vertical = bounds:size().x == 1
+    self.vertical = vertical
     self:set_limit(limit or 1, page_step or 1)
     self:set_position(1)
 end
@@ -100,28 +103,30 @@ function Scrollbar:set_position(position)
 end
 
 function Scrollbar:draw_window()
-    local w = self:window()
-    local attr = color_pair(curses.COLOR_WHITE, curses.COLOR_BLUE)
+    local c = self:canvas()
+    local attr = color_pair('white', 'blue')
     local pos = self.r_position
 
     if (self.vertical) then
-        w:mvaddch(0, 0, curses.ACS_UARROW + attr)
+        c:move(0, 0):attr(attr):write_acs('uarrow')
         for y = 2, self.size.y - 1 do
-            w:mvaddch(y-1, 0, 32 + attr)
             if (pos == y - 1 and self.limit > 1) then
-                w:mvaddch(y-1, 0, string.byte('#') + attr)
+                c:write('#')
+            else
+                c:write(' ')
             end
         end
-        w:mvaddch(self.size.y - 1, 0, curses.ACS_DARROW + attr)
+        c:move(0, self.size.y - 1):write_acs('darrow')
     else
-        w:mvaddch(0, 0, curses.ACS_LARROW + attr)
+        c:move(0, 0):attr(attr):write_acs('larrow')
         for x = 2, self.size.x - 1 do
-            w:mvaddch(0, x-1, 32 + attr)
             if (pos == x - 1 and self.limit > 1) then
-                w:mvaddch(0, x-1, string.byte('#') + attr)
+                c:write_ch('#')
+            else
+                c:write_ch(' ')
             end
         end
-        w:mvaddch(0, self.size.x - 1, curses.ACS_RARROW + attr)
+        c:write_acs('rarrow')
     end
 end
 
@@ -167,7 +172,7 @@ function ScrollIndicator:initialize(sbar)
     -- calc bounds
     local str = sbar.position .. ':' .. sbar.limit
     local r = Rect{ 0, 0, #str, 1 }:move(1, 1)
-    local label = Label:create(r, str, color_pair(curses.COLOR_BLUE, curses.COLOR_WHITE))
+    local label = Label:create(r, str, color_pair('blue', 'white'))
     r:move(-1, -1):grow(1, 1)
 
     --
@@ -188,3 +193,6 @@ function ScrollIndicator:handle_event(event)
         self:end_modal(event.key_name)
     end
 end
+
+-- exports
+_M.Scrollbar = Scrollbar

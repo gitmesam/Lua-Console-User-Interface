@@ -5,9 +5,12 @@ $Id$
 
 local math, string = math, string
 
-local curses = require 'cui.curses'
-
 module 'cui'
+
+local color_pair = color_pair
+
+local Event, View =
+      Event, View
 
 --[[ tlistbox ]-------------------------------------------------------------
 list selection from table
@@ -50,7 +53,7 @@ HOWTO:
         [ listbox:set_count(count) -> listbox:set_list({n = count}) ]
 --]]------------------------------------------------------------------------
 
-Listbox = View()
+local Listbox = View()
 
 function Listbox:initialize(bounds, columns, list, sbar)
     View.initialize(self, bounds)
@@ -72,8 +75,8 @@ function Listbox:initialize(bounds, columns, list, sbar)
     self.position = 1
     self.top_item = 1
 
-    self.nattr = color_pair(curses.COLOR_BLACK, curses.COLOR_CYAN)
-    self.sattr = color_pair(curses.COLOR_WHITE, curses.COLOR_GREEN)
+    self.nattr = color_pair('black', 'cyan')
+    self.sattr = color_pair('white', 'green')
 
     self:set_columns(columns)
     self:set_list(list)
@@ -179,22 +182,23 @@ function Listbox:selected(index)
 end
 
 function Listbox:draw_window()
-    local w = self:window()
+    local c = self:canvas()
     local item = self.top_item
     local index = self.position
     local cols = self.columns
     local colw = self.column_width
-    local str = curses.new_chstr(colw+1)
+    local line = c:line(colw+1)
     local a_normal = self.nattr
     local a_select = self.sattr
     local attr
     local selected
 
-    str:set_ch(colw, curses.ACS_VLINE, a_normal)
+    line:acs(colw, 'vline', a_normal)
+
     -- columns cicle
     for col = 1, cols do
         -- line cicle
-        for line = 1, self.size.y do
+        for y = 1, self.size.y do
             if (self.options.single_selection) then
                 selected = item == index
             else
@@ -202,16 +206,14 @@ function Listbox:draw_window()
             end
             if (selected) then
                 attr = a_select
-                str:set_str(0, '<', attr)
-                str:set_str(colw - 1, '>', attr)
+                line:str(0, '<', attr):str(colw - 1, '>', attr)
             else
                 attr = a_normal
-                str:set_str(0, ' ', attr)
-                str:set_str(colw - 1, ' ', attr)
+                line:str(0, ' ', attr):str(colw - 1, ' ', attr)
             end
 
-            str:set_str(1, self:get_str(item, colw-2), attr)
-            w:mvaddchstr(line-1, col * (colw + 1) - colw - 1, str)
+            line:str(1, self:get_str(item, colw-2), attr)
+            c:move(col * (colw + 1) - colw - 1, y - 1):write(line)
 
             item = item + 1
         end
@@ -250,3 +252,6 @@ function Listbox:handle_event(event)
         self:refresh()
     end
 end
+
+-- exports
+_M.Listbox = Listbox

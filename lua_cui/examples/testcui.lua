@@ -1,17 +1,21 @@
+
+local xpcall, print, require, tostring = xpcall, print, require, tostring
+local debug, os, math, string = debug, os, math, string
+
 require 'cui'
 require 'cui/ctrls'
 
-local curses = require 'cui.curses'
-local Event = cui.Event
-local View = cui.View
-local Listbox = cui.Listbox
-local Rect = cui.Rect
-local Window = cui.Window
-local App = cui.App
+local cui = cui
+local Rect, Event, View, Listbox, Window, App, Desktop =
+      cui.Rect, cui.Event, cui.View, cui.Listbox, cui.Window, cui.App, cui.Desktop
+local Statusbar, Menubar, Memory, Clock =
+      cui.Statusbar, cui.Menubar, cui.Memory, cui.Clock
 
-local color_pair = cui.color_pair
+local color_pair, calc_attr = cui.color_pair, cui.calc_attr
 
-local myview = View()
+local mywindow, myview
+
+myview = View()
 
 function myview:initialize(bounds, s)
     View.initialize(bounds)
@@ -32,15 +36,14 @@ function myview:initialize(bounds, s)
 end
 
 function myview:draw_window()
-    local w = self:window()
-    local attr = color_pair(curses.COLOR_WHITE, curses.COLOR_BLUE)
-    local line = curses.new_chstr(self.size.x)
-    line:set_str(0, ' ', attr, self.size.x)
+    local c = self:canvas()
+    local attr = color_pair('white', 'blue')
+    local line = c:line(self.size.x)
+    line:str(0, ' ', attr, self.size.x)
     for l = 0, self.size.y - 1 do
-        w:mvaddchstr(l, 0, line)
+        c:move(0, l):write(line)
     end
-    w:attrset(attr)
-    w:mvaddstr(0, 0, self.str)
+    c:move(0, 0):attr(attr):write(self.str)
 end
 
 function myview:handle_event(event)
@@ -114,7 +117,7 @@ function mylistbox:select_item(item, select)
     self.list[item] = select
 end
 
-keylog = Listbox()
+local keylog = Listbox()
 
 function keylog:initialize(bounds, sbar)
     Listbox.initialize(self, bounds, 1, {{"begin..."}}, sbar)
@@ -136,23 +139,6 @@ function keylog:handle_event(event)
         self:refresh()
     else
         Listbox.handle_event(self, event)
-    end
-end
-
-function keylog:_draw_window()
-    local w = self:window()
-    local width, height = self.size.x, self.size.y
-    local line = curses.new_chstr(width)
-    local log = self.log
-    local s
-    local attr = color_pair(curses.COLOR_BLUE, curses.COLOR_WHITE)
-
-    for i = 0, i < height do
-        s = log[#log - i - 1]
-
-        line:set_str(0, ' ', attr, width)
-        line:set_str(0, s, attr)
-        w:mvaddchstr(i, 0, line)
     end
 end
 
@@ -188,20 +174,20 @@ function myblock:draw_window()
     self.grow.hix = true
     self.grow.hiy = true
 
-    local d = color_pair(curses.COLOR_WHITE, curses.COLOR_BLACK)
+    local d = color_pair('white', 'black')
     if true and false then return end
 
-    local w = self:window()
+    local c = self:canvas()
     local ch = 0
 
     math.randomseed(os.time())
-    local str = curses.new_chstr(self.size.x)
+    local str = c:line(self.size.x)
     for l = 0, self.size.y - 1 do
         for c = 0, self.size.x - 1 do
-            str:set_ch(c, ch, d*math.random(0,1) + curses.A_BOLD*math.random(0,1))
+            str:ch(c, ch, calc_attr{ d*math.random(0,1), math.random(0,1) == 0 and 'bold' })
             ch = (ch == 255) and 0 or (ch + 1)
         end
-        w:mvaddchstr(l, 0, str)
+        c:move(0, l):write(str)
     end
 end
 
@@ -219,17 +205,17 @@ function myapp:initialize()
     local desk = self.desktop
 
     -- insert the clock
-    --self:insert(cui.Clock:create(cui.Rect{self.size.x-8, 0, self.size.x, 1}))
+    self:insert(Clock:create(Rect{self.size.x-8, 0, self.size.x, 1}))
     -- insert memory information
-    --self:insert(cui.Memory:create(cui.Rect{self.size.x-20, self.size.y-1, self.size.x, self.size.y}))
+    self:insert(Memory:create(Rect{self.size.x-20, self.size.y-1, self.size.x, self.size.y}))
 
 ---[[
-    local r = cui.Rect{1, 1, 70, 20}
-    desk:insert(cui.Window:create(r, 'Window 1', 1))
-    r:move(2, 2) desk:insert(cui.Window:create(r, 'Window 2', 2))
-    r:move(2, 2) desk:insert(cui.Window:create(r, 'Window 3', 3))
-    r:move(2, 2) desk:insert(cui.Window:create(r, 'Window 4', 4))
-    r:move(2, 2) desk:insert(cui.Window:create(r, 'Window 5', 5))
+    local r = Rect{1, 1, 70, 20}
+    desk:insert(Window:create(r, 'Window 1', 1))
+    r:move(2, 2) desk:insert(Window:create(r, 'Window 2', 2))
+    r:move(2, 2) desk:insert(Window:create(r, 'Window 3', 3))
+    r:move(2, 2) desk:insert(Window:create(r, 'Window 4', 4))
+    r:move(2, 2) desk:insert(Window:create(r, 'Window 5', 5))
     r:move(5, 5) desk:insert(mywindow:create(r, 'Window 6', 6))
 --]]
 end
@@ -239,7 +225,7 @@ function myapp:init_desktop()
 end
 
 function myapp:init_menubar()
-    return cui.Menubar:create(cui.Rect{0, 0, self.size.x, 1})
+    return Menubar:create(Rect{0, 0, self.size.x, 1})
 end
 
 local r = cui.Rect{1, 1, 40, 15}
@@ -248,13 +234,13 @@ function myapp:handle_event(event)
     App.handle_event(self, event)
 
     if (event.type == Event.ev_command and event.command == Event.cm_new) then
-        self.desktop:insert(cui.Window:create(r, 'Window', window_number))
+        self.desktop:insert(Window:create(r, 'Window', window_number))
         r:move(2, 2) window_number = window_number + 1
     end
 end
 
 function myapp:init_statusbar()
-    return cui.Statusbar:create(cui.Rect{0, self.size.y - 1, self.size.x, self.size.y},
+    return Statusbar:create(Rect{0, self.size.y - 1, self.size.x, self.size.y},
         {
         --    Key           Description     Event type      Event command   Show
             { "AltX",       "Exit",         "ev_command",   "cm_quit",      true    },
@@ -276,6 +262,7 @@ end
 local ok, msg = xpcall(run, debug.traceback)
 
 if (not ok) then
+    local curses = require 'cui.curses'
     if (not curses.isdone()) then
         curses.done()
     end

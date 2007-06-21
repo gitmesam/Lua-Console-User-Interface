@@ -3,10 +3,16 @@ Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
 $Id$
 --------------------------------------------------------------------------]]
 
-local curses = require 'cui.curses'
+
 local sub = string.sub
 
+require 'cui'
 module 'cui'
+
+local calc_attr, color_pair, acs = calc_attr, color_pair, acs
+local isprint, beep = isprint, beep
+
+local Event = Event
 
 --[[ tedit ]----------------------------------------------------------------
 Members:
@@ -26,8 +32,8 @@ Methods:
 --]]------------------------------------------------------------------------
 
 
-local inherited = View
-Edit = inherited()
+local super = View
+local Edit = super()
 
 local function edit_forward(self)
     local cursor = self:cursor()
@@ -52,7 +58,7 @@ local function edit_backward(self)
 end
 
 function Edit:initialize(bounds, text, maxlen, readonly)
-    inherited.initialize(self, bounds)
+    super.initialize(self, bounds)
 
     -- options
     self.options.selectable = true
@@ -70,7 +76,8 @@ function Edit:initialize(bounds, text, maxlen, readonly)
 end
 
 function Edit:draw_window()
-    local line = curses.new_chstr(self.size.x)
+    local c = self:canvas()
+    local line = c:line(self.size.x)
     local start = self.start
     local text = self.text
     local len = #text
@@ -79,16 +86,16 @@ function Edit:draw_window()
     local nattr, sattr
 
     if self.state.focused then
-        nattr = color_pair(curses.COLOR_WHITE, curses.COLOR_GREEN) + curses.A_BOLD
-        sattr = color_pair(curses.COLOR_CYAN, curses.COLOR_GREEN) + curses.A_BOLD
+        nattr = calc_attr{ color_pair('white', 'green'), 'bold' }
+        sattr = calc_attr{ color_pair('cyan', 'green'), 'bold' }
     else
-        nattr = color_pair(curses.COLOR_WHITE, curses.COLOR_BLUE)
-        sattr = color_pair(curses.COLOR_CYAN, curses.COLOR_BLUE)
+        nattr = calc_attr(color_pair('white', 'blue'))
+        sattr = calc_attr(color_pair('cyan', 'blue'))
     end
 
     if (self.size.x > 0) then
-        line:set_ch(0, self.start == 0 and ' ' or curses.ACS_LARROW, nattr)
-        line:set_ch(self.size.x - 1, (self.start + self.size.x - 2 >= len) and ' ' or curses.ACS_RARROW, nattr)
+        line:ch(0, self.start == 0 and ' ' or acs('larrow'), nattr)
+        line:ch(self.size.x - 1, (self.start + self.size.x - 2 >= len) and ' ' or acs('rarrow'), nattr)
     end
 
     for i = 1, self.size.x - 2 do
@@ -97,20 +104,20 @@ function Edit:draw_window()
             local ch = sub(text, idx, idx)
 
             if (idx >= ss and idx < es) then
-                line:set_str(i, ch, sattr)
+                line:str(i, ch, sattr)
             else
-                line:set_str(i, ch, nattr)
+                line:str(i, ch, nattr)
             end
         else
-            line:set_ch(i, ' ', nattr)
+            line:ch(i, ' ', nattr)
         end
     end
 
-    self:window():mvaddchstr(0, 0, line)
+    c:move(0, 0):write(line)
 end
 
 function Edit:handle_event(event)
-    inherited.handle_event(self, event)
+    super.handle_event(self, event)
 
     if (event.type == Event.ev_keyboard) then
         local key = event.key_name
@@ -161,7 +168,7 @@ function Edit:handle_event(event)
                 end
             end
             self:set_selection(0, 0)
-        elseif (curses.isprint(key_code) and #key == 1 and not meta) then
+        elseif (isprint(key_code) and #key == 1 and not meta) then
             local idx = self.start + cursor.x - 1
 
             local text = self.text
@@ -169,7 +176,7 @@ function Edit:handle_event(event)
                 self.text = sub(text, 1, idx) ..key.. sub(text, idx + 1)
                 edit_forward(self)
             else
-                curses.beep()
+                beep()
             end
 
             self:set_selection(0, 0)
@@ -180,7 +187,7 @@ function Edit:handle_event(event)
     end
 end
 
-function Edit.get_text()
+function Edit:get_text()
     return self.text
 end
 
@@ -231,9 +238,11 @@ function Edit:set_selection(startsel, endsel)
 end
 
 function Edit:set_state(state, enable)
-    inherited.set_state(self, state, enable)
+    super.set_state(self, state, enable)
 
     if state == 'focused' then
         self:refresh()
     end
 end
+
+_M.Edit = Edit

@@ -3,8 +3,6 @@ Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
 $Id$
 --------------------------------------------------------------------------]]
 
-local curses = require 'cui.curses'
-
 module 'cui'
 
 --[[ twindow ]--------------------------------------------------------------
@@ -56,7 +54,7 @@ function Window:init_frame()
     frame:initialize(
         Rect{0, 0, self.size.x, self.size.y},
         self.title,
-        color_pair(curses.COLOR_WHITE, curses.COLOR_BLUE)
+        color_pair('white', 'blue')
     )
     return frame
 end

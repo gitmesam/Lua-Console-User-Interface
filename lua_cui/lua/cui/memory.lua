@@ -3,9 +3,17 @@ Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
 $Id$
 --------------------------------------------------------------------------]]
 
+local tostring, collectgarbage =
+      tostring, collectgarbage
+
+local ceil = math.ceil
+local time = os.time
+
 -- dependencies
-require 'cui'
 module 'cui'
+
+local Event, View =
+      Event, View
 
 --[[ tmemory ]--------------------------------------------------------------
 tmemory:tview
@@ -20,7 +28,7 @@ Methods:
     tmemory:update()
 --]]------------------------------------------------------------------------
 
-Memory = View()
+local Memory = View()
 
 function Memory:initialize(bounds)
     View.initialize(self, bounds)
@@ -36,7 +44,7 @@ function Memory:initialize(bounds)
 
     -- members
     self.last_time = 0
-    self.color = color_pair(curses.COLOR_BLUE, curses.COLOR_WHITE)
+    self.color = color_pair('blue', 'white')
 
     self:update()
 end
@@ -48,19 +56,21 @@ function Memory:handle_event(event)
 end
 
 function Memory:draw_window()
-    local w = self:window()
-    local str = curses.new_chstr(self.size.x)
-    local info = tostring(math.ceil(collectgarbage('count')*1024))
+    local c = self:canvas()
+    local line = c:line(self.size.x)
+    local info = tostring(ceil(collectgarbage('count')*1024))
     local pad = self.size.x - #info
-    str:set_str(0, ' ', self.color, pad)
-    str:set_str(pad, info, self.color)
-    self:window():mvaddchstr(0, 0, str)
+
+    line:str(0, ' ', self.color, pad):str(pad, info, self.color)
+    c:move(0, 0):write(line)
 end
 
 function Memory:update()
-    local t = os.time()
+    local t = time()
     if (t ~= self.last_time) then
         self.last_time = t
         self:refresh()
     end
 end
+
+_M.Memory = Memory

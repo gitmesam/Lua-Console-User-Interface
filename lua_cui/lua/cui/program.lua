@@ -217,7 +217,7 @@ function get_key()
                     break
                 end
 
-                curses.napms(0) t = t + 10
+                curses.napms(50) t = t + 50
             until false
             -- nothing was typed... return Esc
             if (not ch) then return 27, "Esc", false end
@@ -264,9 +264,9 @@ function Program._test()
         local v = View{
             draw_window = function(self)
                 log 'draw v'
-                local w = self:window()
-                w:mvaddstr(0, 0, 'hello')
-                w:mvaddstr(1, 1, 'world')
+                local w = self:canvas()
+                w:move(0, 0):write('hello')
+                w:move(1, 1):write('world')
             end
         }
 
@@ -274,9 +274,9 @@ function Program._test()
         local w = View{
             draw_window = function(self)
                 log 'draw w'
-                local w = self:window()
-                w:mvaddstr(0, 0, '!')
-                w:mvaddstr(1, 1, '!')
+                local w = self:canvas()
+                w:move(0, 0):write('!')
+                w:move(1, 1):write('!')
             end
         }
 

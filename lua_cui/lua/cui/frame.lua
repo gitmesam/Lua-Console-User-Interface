@@ -5,9 +5,10 @@ $Id$
 
 local floor = math.floor
 
-local curses = require 'cui.curses'
-
 module 'cui'
+
+local color_pair, calc_attr = color_pair, calc_attr
+local Event, View = Event, View
 
 --[[ tframe ]---------------------------------------------------------------
 TODO: bounds check (probable truncate) title and print window number
@@ -27,7 +28,7 @@ Methods:
 draws a border around (inside) the window
 --]]------------------------------------------------------------------------
 
-Frame = View{}
+local Frame = View{}
 
 function Frame:initialize(bounds, title, attr)
     View.initialize(self, bounds)
@@ -43,31 +44,31 @@ end
 
 function Frame:set_title(title, attr)
     self.title = title
-    self.attr = attr or curses.A_NORMAL
+    self.attr = attr
     self:refresh()
 end
 
 function Frame:draw_window()
-    local w = self:window()
+    local c = self:canvas()
     local focused = self.parent and self.parent.state.focused
-    local attr = self.attr + (focused and curses.A_BOLD or 0)
+    local attr = calc_attr({ self.attr, focused and 'bold' })
 
-    w:attrset(attr)
-    w:clear()
-    w:border()
-    if (self.title) then
+    c:clear():attr(attr):border()
+
+    if self.title then
         local len = #self.title
-        local title = curses.new_chstr(len + 4)
-        title:set_str(1, ' '..self.title..' ', attr)
+        local title = c:line(len + 4)
+
+        title:str(1, ' '..self.title..' ', attr)
         if (focused) then
-            title:set_ch(0, curses.ACS_RTEE, attr)
-            title:set_ch(len+3, curses.ACS_LTEE, attr)
+            title:acs(0, 'rtee', attr)
+            title:acs(len+3, 'ltee', attr)
         else
-            title:set_ch(0, curses.ACS_HLINE, attr)
-            title:set_ch(len+3, curses.ACS_HLINE, attr)
+            title:acs(0, 'hline', attr)
+            title:acs(len+3, 'hline', attr)
         end
         local x = floor((self.size.x - len - 4) / 2)
-        w:mvaddchstr(0, x > 0 and x or 0, title)
+        c:move(x > 0 and x or 0, 0):write(title)
     end
 end
 
@@ -80,3 +81,6 @@ function Frame:handle_event(event)
         end
     end
 end
+
+-- exports
+_M.Frame = Frame

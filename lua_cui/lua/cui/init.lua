@@ -3,9 +3,6 @@ Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
 $Id$
 --------------------------------------------------------------------------]]
 
--- load curses module
---curses = require 'cui.curses'
-
 local require = require
 
 -- include base functions and objects

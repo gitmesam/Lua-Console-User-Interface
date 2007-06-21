@@ -3,12 +3,9 @@ Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
 $Id$
 --------------------------------------------------------------------------]]
 
-local tonumber = tonumber
-local string = string
+local rep, sub = string.rep, string.sub
 
-local curses = require 'cui.curses'
-
-require 'cui.view'
+require 'cui'
 module 'cui'
 
 --[[ tlabel ]---------------------------------------------------------------
@@ -24,21 +21,21 @@ Label = View()
 
 function Label:initialize(bounds, text, attr)
     View.initialize(self, bounds)
-    self:set_text(text, attr)
+    self:set_text(text, attr, false)
 end
 
-function Label:set_text(text, attr)
+function Label:set_text(text, attr, norefresh)
     self.text = text or ''
-    self.attr = tonumber(attr) or curses.A_NORMAL
-    self:refresh()
+    self.attr = attr
+    if not norefresh then
+        self:refresh()
+    end
 end
 
 function Label:draw_window()
-    local w = self:window()
+    local c = self:canvas()
     local width = self.size.x
-    local str = curses.new_chstr(width)
     local len = #self.text
 
-    str:set_str(0, string.sub(self.text, 1, width)..string.rep(' ', width-len), self.attr)
-    w:mvaddchstr(0, 0, str)
+    c:attr(self.attr):move(0, 0):write(sub(self.text, 1, width)..rep(' ', width-len), self.attr)
 end

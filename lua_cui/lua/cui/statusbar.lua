@@ -3,18 +3,19 @@ Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
 $Id$
 --------------------------------------------------------------------------]]
 
-local curses = require 'cui.curses'
-
 local string = string
 local ipairs = ipairs
 
 module 'cui'
 
+local message, color_pair = message, color_pair
+local Event, View = Event, View
+
 --[[ tstatusbar ]----------------------------------------------------------
 
 --]]------------------------------------------------------------------------
 
-Statusbar = View{}
+local Statusbar = View{}
 
 function Statusbar:initialize(bounds, command_table)
     View.initialize(self, bounds)
@@ -31,29 +32,27 @@ function Statusbar:initialize(bounds, command_table)
     -- members
     self.command_table = command_table
 
-    self.key_attr = color_pair(curses.COLOR_RED, curses.COLOR_WHITE)
-    self.text_attr = color_pair(curses.COLOR_BLACK, curses.COLOR_WHITE)
+    self.key_attr = color_pair('red', 'white')
+    self.text_attr = color_pair('black', 'white')
 end
 
 function Statusbar:draw_window()
-    local w = self:window()
+    local w = self:canvas()
     local x = 0
     local tattr = self.text_attr
     local kattr = self.key_attr
 
+    w:move(0, 0)
+
     for _, e in ipairs(self.command_table) do
         if (e[5]) then
-            w:attrset(kattr)
-            w:addstr(' '..e[1])
-            w:attrset(tattr)
-            w:addstr(' '..e[2])
+            w:attr(kattr):write(' '..e[1]):attr(tattr):write(' '..e[2])
             x = x + #e[1] + #e[2] + 2
         end
     end
 
     if (x < self.size.x) then
-        w:attrset(tattr)
-        w:addstr(string.rep(' ', self.size.x - x))
+        w:attr(tattr):write(string.rep(' ', self.size.x - x))
     end
 end
 
@@ -70,3 +69,6 @@ function Statusbar:handle_event(event)
         end
     end
 end
+
+-- exports
+_M.Statusbar = Statusbar

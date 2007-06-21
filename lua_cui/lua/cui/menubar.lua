@@ -3,8 +3,6 @@ Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
 $Id$
 --------------------------------------------------------------------------]]
 
-local curses = require 'cui.curses'
-
 local string = string
 
 module 'cui'
@@ -26,15 +24,15 @@ function Menubar:initialize(bounds)
     self.event[Event.ev_keyboard] = true
 
     -- members
-    self.color = color_pair(curses.COLOR_RED, curses.COLOR_WHITE)
+    self.color = color_pair('red', 'white')
 end
 
 function Menubar:draw_window()
-    local w = self:window()
-    w:attrset(self.color)
-    w:mvaddstr(0, 0, string.rep(' ', self.size.x*self.size.y))
+    local c = self:canvas()
 
-    w:mvaddstr(0, 0, 'Menu Bar')
+    c:attr(self.color):move(0, 0):write(string.rep(' ', self.size.x*self.size.y))
+
+    c:move(1, 0):write('Menu Bar')
 end
 
 function Menubar:handle_event(event)
