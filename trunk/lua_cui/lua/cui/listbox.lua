@@ -1,6 +1,6 @@
 --[[ Console User Interface (cui) ]-----------------------------------------
 Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
-$Id: listbox.lua,v 1.4 2004/07/22 20:08:45 tngd Exp $
+$Id$
 --------------------------------------------------------------------------]]
 
 local math, string = math, string
