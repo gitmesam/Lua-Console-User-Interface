@@ -1,10 +1,8 @@
 
-require('cui')
-require('cui.point')
+local min, max = math.min, math.max
+local type = type
 
 module('cui')
-
-local min, max = math.min, math.max
 
 --[=[
 Object: Rect
@@ -18,7 +16,7 @@ Members:
 See Also:
     <Point>
 --]=]
-Rect = Object{
+local Rect = Object{
     _init = { "sx", "sy", "ex", "ey" }
 }
 
@@ -158,3 +156,6 @@ function Rect.__concat(op1, op2)
         return op1:__tostring() .. op2:__tostring()
     end
 end
+
+-- exports
+_M.Rect = Rect

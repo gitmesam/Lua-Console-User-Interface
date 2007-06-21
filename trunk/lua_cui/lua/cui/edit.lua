@@ -3,7 +3,9 @@ Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
 $Id: edit.lua,v 1.3 2004/05/23 21:19:29 tngd Exp $
 --------------------------------------------------------------------------]]
 
-require 'cui'
+local curses = require 'cui.curses'
+local sub = string.sub
+
 module 'cui'
 
 --[[ tedit ]----------------------------------------------------------------
@@ -92,7 +94,7 @@ function Edit:draw_window()
     for i = 1, self.size.x - 2 do
         local idx = i + start
         if (idx <= len) then
-            local ch = string.sub(text, idx, idx)
+            local ch = sub(text, idx, idx)
 
             if (idx >= ss and idx < es) then
                 line:set_str(i, ch, sattr)
@@ -138,14 +140,14 @@ function Edit:handle_event(event)
             local idx = self.start + cursor.x - 1
             if (idx > 0) then
                 local text = self.text
-                self.text = string.sub(text, 1, idx - 1) .. string.sub(text, idx + 1)
+                self.text = sub(text, 1, idx - 1) .. sub(text, idx + 1)
                 edit_backward(self)
             end
             self:set_selection(0, 0)
         elseif (key == "Delete") then
             if (self.startsel ~= self.endsel) then
                 local text = self.text
-                self.text = string.sub(text, 1, self.startsel - 1) .. string.sub(text, self.endsel)
+                self.text = sub(text, 1, self.startsel - 1) .. sub(text, self.endsel)
                 if (self.startsel <= self.start) then
                     self.start = self.startsel - 1
                 end
@@ -154,17 +156,17 @@ function Edit:handle_event(event)
                 local idx = self.start + cursor.x - 1
                 local text = self.text
                 if (idx < #text) then
-                    self.text = string.sub(text, 1, idx) .. string.sub(text, idx + 2)
+                    self.text = sub(text, 1, idx) .. sub(text, idx + 2)
                     --tedit_backward(self)
                 end
             end
             self:set_selection(0, 0)
-        elseif (curses.isprint(key_code) and string.len(key) == 1 and not meta) then
+        elseif (curses.isprint(key_code) and #key == 1 and not meta) then
             local idx = self.start + cursor.x - 1
 
             local text = self.text
             if (#text < self.maxlen) then
-                self.text = string.sub(text, 1, idx) ..key.. string.sub(text, idx + 1)
+                self.text = sub(text, 1, idx) ..key.. sub(text, idx + 1)
                 edit_forward(self)
             else
                 curses.beep()
@@ -185,7 +187,7 @@ end
 function Edit:set_text(text, startsel, endsel)
     -- check maxlen
     if (self.maxlen > 0 and #text > self.maxlen) then
-        text = string.sub(text, 1, self.maxlen)
+        text = sub(text, 1, self.maxlen)
     end
     self.text = text
 

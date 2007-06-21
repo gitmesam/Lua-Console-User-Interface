@@ -1,5 +1,6 @@
 
-require('cui')
+local type = type
+
 module('cui')
 
 --[=[
@@ -16,7 +17,7 @@ See Also:
     <Rect>
 --]=]
 
-Point = cui.Object{
+local Point = Object{
    _init = { "x"; "y" },
 }
 
@@ -84,3 +85,6 @@ function Point.__concat(op1, op2)
         return op1:__tostring() .. op2:__tostring()
     end
 end
+
+-- exports
+_M.Point = Point

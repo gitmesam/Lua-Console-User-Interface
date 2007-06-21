@@ -68,13 +68,25 @@ tview methods:
     tview:set_data(table)
 --------------------------------------------------------------------------]]
 
-require 'cui'
+local min, max = math.min, math.max
+local assert, type = assert, type
+
+-- load curses module
+local curses = require 'cui.curses'
+
 module 'cui'
+
+local Object, Point, Rect, Event, BroadcastEvent =
+      Object, Point, Rect, Event, BroadcastEvent
+local message, range =
+      message, range
 
 local cursor_visibility         -- cursor state
 local cursor = Point { 0, 0 }   -- cursor position in screen
 local screen_lock = 0           -- screen lock/update counter
-local min, max = math.min, math.max
+
+-- for debugging purposes
+local _tag_num = 0
 
 --[=[
 Object: View
@@ -85,9 +97,7 @@ About:
 
 --]=]
 
-View = Object{}
-
-local _tag_num = 0
+local View = Object{}
 
 -- construction helper
 function View:create(...)
@@ -380,3 +390,5 @@ end
 function View:set_data(data)
 end
 
+-- exports
+_M.View = View

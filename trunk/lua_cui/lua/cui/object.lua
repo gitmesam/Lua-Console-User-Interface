@@ -1,4 +1,7 @@
 
+local setmetatable, getmetatable = setmetatable, getmetatable
+local pairs = pairs
+
 module('cui')
 
 --[=[
@@ -69,7 +72,7 @@ end
 
 
 -- Root object
-Object = {
+local Object = {
   -- List of fields to be initialised by the
   -- constructor: assuming the default _clone, the
   -- numbered values in an object constructor are
@@ -95,3 +98,6 @@ end
 function Object.__call (...)
   return (...)._clone (...)
 end
+
+-- exports
+_M.Object = Object

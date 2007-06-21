@@ -3,7 +3,12 @@ Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
 $Id: label.lua,v 1.2 2004/05/22 17:17:26 tngd Exp $
 --------------------------------------------------------------------------]]
 
-require 'cui'
+local tonumber = tonumber
+local string = string
+
+local curses = require 'cui.curses'
+
+require 'cui.view'
 module 'cui'
 
 --[[ tlabel ]---------------------------------------------------------------

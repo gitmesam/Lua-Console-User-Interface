@@ -1,10 +1,11 @@
 --[[ Console User Interface (cui) ]-----------------------------------------
 Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
-$Id: frame.lua,v 1.3 2004/05/23 21:19:29 tngd Exp $
 --------------------------------------------------------------------------]]
 
--- dependencies
-require 'cui'
+local floor = math.floor
+
+local curses = require 'cui.curses'
+
 module 'cui'
 
 --[[ tframe ]---------------------------------------------------------------
@@ -64,7 +65,7 @@ function Frame:draw_window()
             title:set_ch(0, curses.ACS_HLINE, attr)
             title:set_ch(len+3, curses.ACS_HLINE, attr)
         end
-        local x = math.floor((self.size.x - len - 4) / 2)
+        local x = floor((self.size.x - len - 4) / 2)
         w:mvaddchstr(0, x > 0 and x or 0, title)
     end
 end

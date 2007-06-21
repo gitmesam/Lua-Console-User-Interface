@@ -3,11 +3,9 @@ Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
 $Id: desktop.lua,v 1.2 2004/05/22 17:17:26 tngd Exp $
 --------------------------------------------------------------------------]]
 
--- dependencies
-require 'cui'
-require 'cui/window'
-require 'cui/scrollbar'
-require 'cui/listbox'
+local table, string = table, string
+
+local curses = require 'cui.curses'
 
 module 'cui'
 

@@ -3,7 +3,10 @@ Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
 $Id: listbox.lua,v 1.4 2004/07/22 20:08:45 tngd Exp $
 --------------------------------------------------------------------------]]
 
-require 'cui'
+local math, string = math, string
+
+local curses = require 'cui.curses'
+
 module 'cui'
 
 --[[ tlistbox ]-------------------------------------------------------------

@@ -1,7 +1,7 @@
 require 'cui'
 require 'cui/ctrls'
 
-local curses = cui.curses
+local curses = require 'cui.curses'
 local Event = cui.Event
 local View = cui.View
 local Listbox = cui.Listbox
@@ -185,6 +185,9 @@ end
 local myblock = View()
 
 function myblock:draw_window()
+    self.grow.hix = true
+    self.grow.hiy = true
+
     local d = color_pair(curses.COLOR_WHITE, curses.COLOR_BLACK)
     if true and false then return end
 
@@ -216,9 +219,9 @@ function myapp:initialize()
     local desk = self.desktop
 
     -- insert the clock
-    self:insert(cui.Clock:create(cui.Rect{self.size.x-8, 0, self.size.x, 1}))
+    --self:insert(cui.Clock:create(cui.Rect{self.size.x-8, 0, self.size.x, 1}))
     -- insert memory information
-    self:insert(cui.Memory:create(cui.Rect{self.size.x-20, self.size.y-1, self.size.x, self.size.y}))
+    --self:insert(cui.Memory:create(cui.Rect{self.size.x-20, self.size.y-1, self.size.x, self.size.y}))
 
 ---[[
     local r = cui.Rect{1, 1, 70, 20}

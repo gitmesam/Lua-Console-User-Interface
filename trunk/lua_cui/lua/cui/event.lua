@@ -17,15 +17,26 @@ Event = Object{
     _init = { "type", "command", "extra" }
 }
 
+function Event:register(tag, ...)
+    local base = self[tag] or 0
+    local enums = {...}
+    local n = #enums
+    for i = 1, n do
+        self[enums[i]] = i + base
+    end
+    self[tag] = base + n
+end
+
 -- event types
-enum(Event, {
+Event:register(
+    'ev_max',
+
     'ev_keyboard',
     'ev_mouse',
     'ev_command',
     'ev_broadcast',
-    'ev_idle',
-    'ev_max'
-})
+    'ev_idle'
+)
 
 -- Events
 KeyboardEvent = Object{
@@ -56,7 +67,9 @@ IdleEvent = Object{
 enumerated *constants*
 --------------------------------------------------------------------------]]
 -- known command event (ev_command)
-enum(Event, {
+Event:register(
+    'cm_max',
+
     -- application
     'cm_quit',      -- quit application
 
@@ -74,13 +87,12 @@ enum(Event, {
 
     -- view selection TODO
     'cm_leave',     -- unselect view
-    'cm_enter',     -- select view
-
-    --
-    'cm_max'
-})
+    'cm_enter'      -- select view
+)
 -- known broadcast events (ev_broadcast)
-enum(Event, {
+Event:register(
+    'be_max',
+
     -- view
     'be_selected',  -- after select view
     'be_focused',   -- after focus view
@@ -90,13 +102,10 @@ enum(Event, {
     'be_select_window_number',  -- send to select window number
 
     -- scroll bar
-    'be_scrollbar_changed', -- extra = scrollbar
-
-    --
-    'be_max'
-})
+    'be_scrollbar_changed'  -- extra = scrollbar
+)
 --  known keyboard events (ev_keyboard)
-enum(Event, { 'ke_max' })
+Event:register('ke_max')
 
 
 --[=[
