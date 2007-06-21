@@ -1,6 +1,6 @@
 --[[ Console User Interface (_cui) - load all controls ]--------------------
 Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
-$Id: ctrls.lua,v 1.3 2004/05/24 19:29:01 tngd Exp $
+$Id$
 ----------------------------------------------------------------------------
 Available controls:
     label           tlabel:new(bounds, text, attr)

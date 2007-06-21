@@ -1,6 +1,6 @@
 --[[ Console User Interface (cui) ]-----------------------------------------
 Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
-$Id: menubar.lua,v 1.2 2004/05/22 17:17:26 tngd Exp $
+$Id$
 --------------------------------------------------------------------------]]
 
 local curses = require 'cui.curses'
