@@ -4,6 +4,7 @@ $Id: desktop.lua,v 1.2 2004/05/22 17:17:26 tngd Exp $
 --------------------------------------------------------------------------]]
 
 local table, string = table, string
+local tonumber = tonumber
 
 local curses = require 'cui.curses'
 
@@ -114,8 +115,9 @@ function Desktop:handle_event(event)
         if (key == 'Alt0') then
             self:list_windows()
             event.type = nil
-        elseif (string.find(key, "Alt", 1, true) == 1) then -- Alt-number
-            local number = tonumber(string.sub(key, 4)) or -1
+        elseif (string.match(key, "^Alt[1-9]$")) then -- Alt-number
+            -- use string.match above?
+            local number = tonumber(string.match(key, "^Alt([1-9])$"))
             if (number >= 0 and number <= 9) then
                 message(self, BroadcastEvent{ Event.be_select_window_number, number })
             end
