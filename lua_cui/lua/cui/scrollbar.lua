@@ -3,11 +3,12 @@ Author: Tiago Dionizio (tngd@mega.ist.utl.pt)
 $Id: scrollbar.lua,v 1.3 2004/05/23 21:19:29 tngd Exp $
 --------------------------------------------------------------------------]]
 
--- dependencies
-require 'cui'
-require 'cui/label'
-require 'cui/window'
+local math, string = math, string
 
+local curses = require 'cui.curses'
+
+require 'cui.view'
+require 'cui.window'
 module 'cui'
 
 --[[ tscrollbar ]----------------------------------------------------------

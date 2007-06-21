@@ -1,6 +1,18 @@
 
-require 'cui'
+local table, string, debug = table, string, debug
+local assert = assert
+
+local error, print, xpcall = error, print, xpcall
+
+-- load curses module
+local curses = require 'cui.curses'
+
 module 'cui'
+
+local log = log
+
+local Rect, View, Group, Event, KeyboardEvent, CommandEvent =
+      Rect, View, Group, Event, KeyboardEvent, CommandEvent
 
 --[[ tprogram ]-------------------------------------------------------------
 
@@ -21,8 +33,9 @@ local main_window
 local event_queue = {}          -- event queue
 local key_map
 local key_translate
+local init_keymap, get_key
 
-Program = Group{}
+local Program = Group{}
 
 -- create main window group - should be the only group without a parent
 function Program:initialize()
@@ -217,6 +230,12 @@ function get_key()
     else
         return ch, '(noname)', alt
     end
+
+    --[[
+    if key_name == 'CtrlD' then
+        error('CtrlD hit')
+    end
+    --]]
     return ch, key_name, alt
 end
 
@@ -280,3 +299,6 @@ function Program._test()
         print(msg)
     end
 end
+
+-- exports
+_M.Program = Program

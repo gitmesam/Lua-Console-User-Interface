@@ -37,13 +37,18 @@ tgroup public methods:
 --------------------------------------------------------------------------]]
 
 local min, max, floor = math.min, math.max, math.floor
+local assert = assert
 
-require 'cui'
-require 'cui.view'
+-- load curses module
+local curses = require 'cui.curses'
 
 module 'cui'
 
-Group = View{}
+local Point, Rect, View, Event, IdleEvent =
+      Point, Rect, View, Event, IdleEvent
+local message = message
+
+local Group = View{}
 
 -- constructor
 function Group:initialize(bounds)
@@ -516,3 +521,6 @@ function Group:set_data(data)
         w:set_data(data)
     end)
 end
+
+-- exports
+_M.Group = Group

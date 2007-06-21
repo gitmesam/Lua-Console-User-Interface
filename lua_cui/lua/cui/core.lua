@@ -4,9 +4,13 @@ Section: globals
     Utility functions.
 --]=]
 
-module('cui', package.seeall)
-
+local io = io
 local min, max = math.min, math.max
+local error, tostring = error, tostring
+
+local curses = require 'cui.curses'
+
+module('cui')
 
 -- internals
 local colors = {}
@@ -23,7 +27,6 @@ function log(...)
     end
     f:write('\n')
     f:close()
-    return unpack(arg)
 end
 
 
